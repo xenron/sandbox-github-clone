@@ -1,0 +1,56 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+#Vim thrashes
+*.swp
+
+#binary data
+*.pkl
+*.npy
+*.gz
+*.bz2
+*.pyc
+
+#images
+*.png
+*.jpg
+
+#Jobman logs
+*.err
+*.out
+*.condor
+gulcehre_db/
+LOGS/
+*.txt
+*.conf
