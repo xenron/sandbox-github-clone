@@ -1,0 +1,15 @@
+__add__(self, value, /)
+am i right in thinking that those are just regular functions? and you can call them like that? what is with the underscores? some correspond to other functions that look more familiar, right - x.__getitem__(y) is just a long-winded way of saying x[y].
+
+or would you call __add__(self, value) as word.add if word was a tuple?
+
+2 - see question in context
+3 - double check my answer to a logic question about tuples.
+4 - what is "tuple assignment?" I think it's a question of how to parse the question
+
+-----
+12 problem
+
+14 - it's working, but the answers are different every time. or at least they seem to be the same answers but in a different order. is that because a set is not structured? so the computer just goes through and pulls stuff out in whatever order it wants? so the answers are diff. each time?
+
+i've noticed in my solutions to some of these i am having to do a LOT of str() and int()…type casting? is that what's it called? Is that alright? it feels like it's sort of a function of poorly planned functions. i'm just coding as i go and i have to do that to write my way out of traps in the end.
