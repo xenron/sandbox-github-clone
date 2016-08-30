@@ -1,0 +1,94 @@
+[
+  {
+    "model": "runner.Author",
+    "pk": 1,
+    "fields": {
+      "name": "Person1",
+      "age": 10
+    }
+  },
+  {
+    "model": "runner.Author",
+    "pk": 2,
+    "fields": {
+      "name": "Person2",
+      "age": 20
+    }
+  },
+  {
+    "model": "runner.Publisher",
+    "pk": 1,
+    "fields": {
+      "name": "Pub1",
+      "num_awards": 5
+    }
+  },
+  {
+    "model": "runner.Publisher",
+    "pk": 2,
+    "fields": {
+      "name": "Pub2",
+      "num_awards": 10
+    }
+  },
+  {
+    "model": "runner.Publisher",
+    "pk": 3,
+    "fields": {
+      "name": "Pub3",
+      "num_awards": 15
+    }
+  },
+  {
+    "model": "runner.Book",
+    "pk": 1,
+    "fields": {
+      "name": "1st_book",
+      "pages": 10,
+      "price": 1000,
+      "rating": 3,
+      "authors": [1, 2],
+      "publisher": 1,
+      "pubdate": "2015-09-01"
+    }
+  },
+  {
+    "model": "runner.Book",
+    "pk": 2,
+    "fields": {
+      "name": "2nd_book",
+      "pages": 20,
+      "price": 2000,
+      "rating": 4,
+      "authors": [1],
+      "publisher": 1,
+      "pubdate": "2015-09-10"
+    }
+  },
+  {
+    "model": "runner.Book",
+    "pk": 3,
+    "fields": {
+      "name": "3rd_book",
+      "pages": 30,
+      "price": 3000,
+      "rating": 5,
+      "authors": [2],
+      "publisher": 1,
+      "pubdate": "2015-10-01"
+    }
+  },
+  {
+    "model": "runner.Book",
+    "pk": 4,
+    "fields": {
+      "name": "4th_book",
+      "pages": 40,
+      "price": 4000,
+      "rating": 5,
+      "authors": [2],
+      "publisher": 2,
+      "pubdate": "2015-10-01"
+    }
+  }
+]

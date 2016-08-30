@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>My Site</title>
+</head>
+<body>
+    <h1>Item Form</h1>
+    <div id="main">
+        <form method="post" action="" name="creation">
+            <fieldset>
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                
+                <input type="submit" id="save" value="Save">
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

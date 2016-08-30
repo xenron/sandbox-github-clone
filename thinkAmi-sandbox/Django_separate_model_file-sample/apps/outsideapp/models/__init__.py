@@ -1,0 +1,1 @@
+from apps.outsideapp.models.affiliation_model import *
