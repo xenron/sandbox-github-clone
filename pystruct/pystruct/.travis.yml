@@ -1,0 +1,41 @@
+sudo: false
+language: python
+addons:
+  apt:
+    sources:
+    - boost-latest
+    packages:
+    - python-scipy
+    - python-nose
+    - python-pip
+    - cython
+    - cmake
+    - time
+    - libatlas-dev
+    - libatlas3gf-base
+    - liblapack-dev
+    - liblapack3gf
+    - libhdf5-serial-dev
+    - libboost1.55-dev
+    - libboost-python1.55-dev
+virtualenv:
+  system_site_packages: true
+env:
+  matrix:
+    - DISTRIB="ubuntu" PYTHON_VERSION="2.7" OPENGM="true"
+    ## ubuntu without opengm
+    - DISTRIB="ubuntu" PYTHON_VERSION="2.7" OPENGM="false"
+    ## This environment tests the newest supported anaconda env
+    - DISTRIB="conda" PYTHON_VERSION="2.7"
+      NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0"
+    # python3 only on ubuntu because of cvxopt
+    - DISTRIB="conda" PYTHON_VERSION="3.4" OPENGM="false"
+      NUMPY_VERSION="1.10.4" SCIPY_VERSION="0.17.0"
+install: source continuous_integration/install.sh
+script: bash continuous_integration/test_script.sh
+after_success:
+    # Ignore coveralls failures as the coveralls server is not very reliable
+    # but we don't want travis to report a failure in the github UI just
+    # because the coverage report failed to be published.
+    - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
+cache: apt

@@ -1,0 +1,71 @@
+v0.1.0, 4/28/2014 -- Initial commit
+
+v0.1.1, 4/28/2014 -- Documentation and examples provided
+
+v0.1.2, 5/5/2014 -- Changed instances of dtype=numpy.int to 
+	dtype=numpy.int32, as other int types are not properly 
+	recognized as integers on Unix machines, but as shorts or longs.
+
+v0.1.3, 5/8/2014 -- Added optional removal of orphan states and chains
+	in the bake method. Added two underflow protections: row
+	normalization in the forward/backward algorithms, and a better
+	logsumexp function. Fixed writing and reading so that the
+	original distributions work. Still need to fix the functions
+	under InverseGamma. Added more documentation.
+
+v0.1.4, 5/11/2014 -- Infinite models are now possible, by simply not adding a transition to the end state. All algorithms accept this. You can make sure your model is an infinite model by calling "Model.is_infinite()". 
+
+Added maximum a posteriori decoding, via "Model.maximum_a_posteriori( sequence )". This returns the mode of the posterior distribution of the states. This sequence may not necessarily be a valid sequence.
+
+Added sampling from infinite models. If your model is infinite, you can pass in length to sample to get a sample of a certain length. You can also pass "path=True" to get the path of hidden states that generated that sample.
+
+v0.1.5 5/18/2014 -- Fixed a bug with training that was introduced in v0.1.4. Because self.f and self.b were cast as double [:,:], they allowed for quick access. They were changed to f, and b, forgetting to cast them, making access extremely slow. This was fixed by casting f and b as double [:,:].
+
+Fixed writing and reading. Previously, reading and writing only worked on Normal, Exponential, Gamma, InverseGamma distributions. Now works on all distributions, including mixtures of arbitrary distributions.
+
+Sped up exponential and gamma distributions a tiny bit by changing the log function to the C log function.
+
+v1.0.0 6/26/2014 -- Significant changes have been made, which make some functions no longer back compatible. 
+
+(1) Read and write are no longer back compatible in order to have a more fully featured method pair. THESE FUNCTIONS DO NOT HANDLE TIED STATES YET. IF YOU WRITE A MODEL AND READ IT BACK IN, YOU WILL LOSE TIED STATE INFORMATION. This will be fixed shortly, but is currently not possible.
+
+(2) Model.train now takes "labelled" as an algorithm type, and lets you pass in ( sequence, label ) tuples, where the label is state object that should have represented this. This is useful for hand notated data. Model._train_viterbi has been updated to simply be a wrapper for this function, where it calculates the viterbi path of an unlabelled sequence before passing it into Model._train_labelled.
+
+(3) Edge intertia now added, meaning that in the training algorithms, the new training edge will be x*(1-p) + y*(p) where p is the edge inertia, x is the new value estimated, and y was the previous value. Each iteration of Baum-Welch will use y as the value calculated in the previous iteration, meaning it can change more than the amount specified over the total number of iterations.
+
+(4) Transition pseudocounts are now added for training in two manners. The first is that in Model.train, you can pass in transition_pseudocount=x, where x is some float. The pseudocount is just a count applied to each edge which already exists when summing the number of times an edge is crossed. The second is to specify a pseudocount for a specific edge, using Model.add_transition( x, y, probability=z, pseudocount=p ). When training, you must toggle use_pseudocount=True in order to use. An example would be model.train( [sequences], algorithm='baum-welch', use_pseudocount=True ), or model.train( [sequences], algorithm='baum-welch', transition_pseudocount=1.5 ), or even model.train( [sequences], algorithm='baum_welch', use_pseudocount=True, transition_pseudocount=1.3 ). Pseudocounts apply to all training algorithms, not just Baum-Welch.
+
+(5) Model.log_probability( sequence ) has been added as a method to calculate the log probability score of a sequence. On finite models, this is just a wrapper for model.forward( sequence )[ len(sequence), model.end_index ]. On infinite models, it will sum the last row of the forward matrix for symbol-emitting states, as there is no specific end state.
+
+(6) State Weights have been added, and can be specified by indicating State( distribution, name, weight=x ), where X is the weight. By default this is 1. This is a bonus (or penalty) to add to the aligning of any sequence item to this state, and effects all algorithms allowing for weighted algorithms.
+
+(7) MultivariateDistribution is a new distribution type which allows you to specify distributions over an arbitrary number of independent distributions of any type. You specify it by passing in a list of distributions like the following: MultivariateDistribution( [ NormalDistribution( 5, 2 ), ExponentialDistribution( 10 ) ] ). All current methods work with it, but now all sequence items must be tuples of length equal to the number of distributions.
+
+(8) Previously, rows were normalized during the forward and backward algorithm. This caused huge slow downs for no gain, as the logsumexp function handled underflow. These have been removed. 
+
+v1.0.1a, 8/26/2014 --
+(1) Distribution inertia added for all distributions. This means that parameters for the distributions are updated to be inertia*prior_parameters + (1-inertia)*new_parameters. This can be triggered using `distribution_inertia` in the `Model.train` method.
+
+(2) Summary statistics implemented for Baum-Welch training. This involves summarizing one sequence at a time and storing the appropriate summary statistics to the distribution object using `Distribution.summarize( items, weights )`, and then updating the parameters using these summary statistics and an appropriate inertia with `Distribution.from_summarize( inertia=0.0 )`. This makes training on large numbers of sequences always faster, but training on small numbers of long sequences take slightly longer. 
+
+(3) Nosetests significantly expanded to include more tests. This includes a new file `test_training.py`, which has a large number of tests on the Viterbi and Baum-Welch training algorithms, with different parameters. This also includes expanded testing of each distribution, and each of the training functions for that sample.
+
+v1.1.0, 9.12/2014 --
+(1) Distribution freezing and thawing added. If a distribution is frozen, it will not change after training. This is useful if you know that some parameterization of the distribution is correct. This can be done on a distribution level, or on the entire model. Thawing a frozen state returns it to normal.
+
+(2) Now Python3 compatible.
+
+(3) Tied edges now added. When training, a transition over an edge now counts as a transition across any edge it is tied to. This can be done easily using the `group` keyword in the `add_transition` function.
+
+(4) `add_transitions` added to the Model class, as a way to add many transitions as a batch.
+
+v1.1.1 12/9/2014
+(1) log_probability( model, samples ) function added, which calculates the log probability of a group of samples given a model. This can be either a distribution or a HMM.
+
+(2) MixtureDistribution bug fixed in which it would only look at the first two distributions when calculating log probability
+
+(3) EM algorithm added to train MixtureDistributions. Both emission and weight updates added.
+
+(4) Error in NormalDistribution.from_summaries in which it did not respect min_std. This worked for from_sample but not from_summaries.
+
+v1.1.3 1/18/2015 - Fixed error in backward algorithm on infinite models. Initialization should have been 0's.

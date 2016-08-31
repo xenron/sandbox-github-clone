@@ -1,0 +1,17 @@
+0.3
+===
+- Removed libdai bindings that were very experimental.
+
+0.2.3
+=====
+- Added max-prod inference, including loopy bp, tree bp and a special case for chains.
+
+0.2
+===
+- Added BCFW.
+- Added averaging in stochastic gradient descent.
+- Added "snakes" dataset.
+- Much faster interface to OpenGM.
+- Speed improvements in loss-augmented inference.
+- Renamed psi to joint_feature, as the joint feature function is sometimes also called phi, with psi referring to the energy.
+- Removed the GLPK dependency: now cvxopt is used to solve linear programs.
