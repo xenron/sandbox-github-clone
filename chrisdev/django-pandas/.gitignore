@@ -1,0 +1,13 @@
+*.pyc
+*.egg*
+.DS_Store*
+_build*
+build*
+dist*
+*.wpr
+*.wpu
+*.sw*
+.ropeproject*
+htmlcov*
+.tox*
+.coverage
