@@ -1,0 +1,4 @@
+Theano==0.7
+-e git+https://github.com/Lasagne/Lasagne.git@91aa9ec44f#egg=Lasagne==0.1.git
+git+https://github.com/dnouri/nolearn.git@3fdd21d819#egg=nolearn==0.7.git
+-e git+https://github.com/lisa-lab/pylearn2.git@2f4537665c9f036c32c80b0c967b49ebb0b5f9ce#egg=pylearn2
