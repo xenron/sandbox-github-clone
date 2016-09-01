@@ -1,0 +1,2 @@
+ADD_SUBDIRECTORY(ptx2sass)
+ADD_SUBDIRECTORY(sass2cubin)
