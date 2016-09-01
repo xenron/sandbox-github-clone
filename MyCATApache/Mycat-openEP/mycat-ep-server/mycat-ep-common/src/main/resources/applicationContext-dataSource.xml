@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+        <!-- 引入jdbc配置文件 -->
+        <context:property-placeholder location="classpath:jdbc.properties,classpath:jedis.properties,classpath:iceclient.properties" file-encoding="UTF-8"/>
+
+        <!-- 扫描文件 -->
+        <context:component-scan base-package="io.mycat.ep"/>
+
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+              destroy-method="close" >
+            <property name="driverClassName">
+                <value>${jdbc.driver.className}</value>
+            </property>
+            <property name="url">
+                <value>${jdbc.url}</value>
+            </property>
+            <property name="username">
+                <value>${jdbc.username}</value>
+            </property>
+            <property name="password">
+                <value>${jdbc.password}</value>
+            </property>
+            <!-- 连接池最大使用连接数 -->
+            <property name="maxActive">
+                <value>${jdbc.maxActive}</value>
+            </property>
+            <!-- 初始化连接大小 -->
+            <property name="initialSize">
+                <value>${jdbc.initialSize}</value>
+            </property>
+            <!-- 获取连接最大等待时间 -->
+            <property name="maxWait">
+                <value>${jdbc.maxWait}</value>
+            </property>
+            <!-- 连接池最小空闲 -->
+            <property name="minIdle">
+                <value>${jdbc.minIdle}</value>
+            </property>
+            <!-- 自动清除无用连接 -->
+            <property name="removeAbandoned">
+                <value>true</value>
+            </property>
+            <!-- 清除无用连接的等待时间 -->
+            <property name="removeAbandonedTimeout">
+                <value>${jdbc.removeAbandonedTimeout}</value>
+            </property>
+            <!-- 连接属性 -->
+            <property name="connectionProperties">
+                <value>clientEncoding=UTF-8</value>
+            </property>
+        </bean>
+
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource" />
+        </bean>
+
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <property name="dataSource" ref="dataSource" />
+            <!-- 实体类所在的包 -->
+            <property name="typeAliasesPackage" value="io.mycat.ep.**.model" />
+        </bean>
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <!-- dao接口所在的基包 -->
+            <property name="basePackage" value="io.mycat.ep.**.dao" />
+            <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        </bean>
+
+</beans>

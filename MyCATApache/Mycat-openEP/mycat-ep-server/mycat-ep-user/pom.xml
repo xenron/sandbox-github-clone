@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<artifactId>mycat-ep-user</artifactId>
+	<description>mycat-ep server user</description>
+	<name>mycat-ep-user</name>
+	<url>http://mycat.io</url>
+    <packaging>pom</packaging>
+	<parent>
+        <groupId>io.mycat.ep</groupId>
+        <artifactId>mycat-ep-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../mycat-ep-parent</relativePath>
+    </parent>
+    <modules>
+        <module>client</module>
+        <module>server</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>io.mycat.ep</groupId>
+            <artifactId>mycat-ep-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.mycat.ep</groupId>
+            <artifactId>mycat-ep-icegrid-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
